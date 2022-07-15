@@ -14,38 +14,93 @@ class App extends React.Component {
     constructor() {
         super()
         this.state = {
-            water: 0,
+            water: 1.5,
             heart: 120,
             temperature: -10,
-            steps: 3000
+            steps: 3000,
+            addWaterHeart: 0,
+            addWaterSteps: 0,
+            addWaterTemperature: 0,
+            linearGradient: "material-icons linear-background-text_1"
         }
     }
     onHeartChange = (e) => {
         this.setState({
-            heart: e.target.value
-        })
+                heart: e.target.value
+            })
+        if (this.state.heart > 120) {
+            this.setState({
+                addWaterHeart: (this.state.heart - 120) * 0.0008
+            })
+            this.calculateWater()
+        }
+        
     }
     onStepsChange = (e) => {
         this.setState({
-            steps: e.target.value
-        })
+                steps: e.target.value
+            })
+        if (this.state.steps > 10000) {
+            this.setState({
+                addWaterSteps: (this.state.steps - 10000) * 0.00002
+            })
+            this.calculateWater()
+        }
     }
     onTemperatureChange = (e) => {
         this.setState({
-            temperature: e.target.value
-        })
+                temperature: e.target.value
+            })
+        if (this.state.temperature > 20) {
+            this.setState({
+                addWaterTemperature: (this.state.temperature - 20) * 0.02
+            })
+            this.calculateWater()
+        }
     }
-
+    
+    calculateWater = () => {  
+        this.setState({
+            water: (1.5 + this.state.addWaterHeart + this.state.addWaterSteps + this.state.addWaterTemperature)
+        })
+        if (this.state.water < 1.7){
+            this.setState ({
+                linearGradient : "material-icons linear-background-text_1"
+            })
+        } else if (this.state.water < 1.9) {
+            this.setState ({
+                linearGradient : "material-icons linear-background-text_2"
+            })
+        } else if (this.state.water < 2.1) {
+            this.setState ({
+                linearGradient : "material-icons linear-background-text_3"
+            })
+        } else if (this.state.water < 2.3) {
+            this.setState ({
+                linearGradient : "material-icons linear-background-text_4"
+            })
+        } else if (this.state.water < 2.5){
+            this.setState ({
+                linearGradient : "material-icons linear-background-text_5"
+            })
+        } else {
+            this.setState ({
+                linearGradient : "material-icons linear-background-text_6"
+            })
+        }
+    }
 
     render() {
         return (
-            <div className="container-fluid box">
+            <div className="container-fluid box pt-0">
                 <div className="row">
-                    {/* <p>Heart : {heartMin}</p>
-                    <p>Temperature : {tempMin}</p>
-                    <p>Steps : {stepsMin}</p> */}
                     {/* Water */}
-                    <Box icon="local_drink" color="#3A85FF" value={1.5} unit="L" />
+                    <Box 
+                        icon="local_drink" 
+                        className={this.state.linearGradient}
+                        value={this.state.water} 
+                        unit="L"
+                    />
                     {/* Steps */}
                     <Box 
                         icon="directions_walk" 
@@ -55,6 +110,7 @@ class App extends React.Component {
                         min={stepsMin}
                         max={stepsMax}
                         onChange={this.onStepsChange}
+                        className="material-icons flip-vertical-bck"
                         />
                     {/* Heart */}
                     <Box 
@@ -65,6 +121,7 @@ class App extends React.Component {
                         min={heartMin}
                         max={heartMax}
                         onChange={this.onHeartChange}
+                        className="material-icons heartbeat"
                     />
                     {/* Temperature */}
                     <Box 
@@ -75,8 +132,8 @@ class App extends React.Component {
                         min={tempMin}
                         max={tempMax}
                         onChange={this.onTemperatureChange}
+                        className="material-icons rotate-scale-down"
                     />
-
                 </div> 
             </div>
         );
