@@ -26,42 +26,47 @@ class App extends React.Component {
     }
     onHeartChange = (e) => {
         this.setState({
-                heart: e.target.value
-            })
-        if (this.state.heart > 120) {
-            this.setState({
-                addWaterHeart: (this.state.heart - 120) * 0.0008
-            })
-            this.calculateWater()
-        }
+                heart: Number(e.target.value)
+        }, () => {
+            if (this.state.heart > 120) {
+                this.setState({
+                    addWaterHeart: (this.state.heart - 120) * 0.0008
+                })
+                this.calculateWater()
+            }
+        })
+        
         
     }
     onStepsChange = (e) => {
         this.setState({
-                steps: e.target.value
-            })
-        if (this.state.steps > 10000) {
-            this.setState({
-                addWaterSteps: (this.state.steps - 10000) * 0.00002
-            })
-            this.calculateWater()
-        }
+                steps: Number(e.target.value)
+        }, () => {
+            if (this.state.steps > 10000) {
+                this.setState({
+                    addWaterSteps: (this.state.steps - 10000) * 0.00002
+                })
+                this.calculateWater()
+            }
+        })
+        
     }
     onTemperatureChange = (e) => {
         this.setState({
-                temperature: e.target.value
-            })
-        if (this.state.temperature > 20) {
-            this.setState({
-                addWaterTemperature: (this.state.temperature - 20) * 0.02
-            })
-            this.calculateWater()
-        }
+                temperature: Number(e.target.value)
+        }, () => {
+            if (this.state.temperature > 20) {
+                this.setState({
+                    addWaterTemperature: (this.state.temperature - 20) * 0.02
+                })
+                this.calculateWater()
+            }
+        })  
     }
     
     calculateWater = () => {  
         this.setState({
-            water: (1.5 + this.state.addWaterHeart + this.state.addWaterSteps + this.state.addWaterTemperature)
+            water: ((1.5 + this.state.addWaterHeart + this.state.addWaterSteps + this.state.addWaterTemperature).toFixed(2))
         })
         if (this.state.water < 1.7){
             this.setState ({

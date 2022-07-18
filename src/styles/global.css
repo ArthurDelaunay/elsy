@@ -11,10 +11,7 @@
     padding: 8px;
     text-align: center;
 }
-
-.no-padding {
-    padding: none;
-}
+/* gestion "animation" de l'eau */
 
 .linear-background-text_1 {
     background: linear-gradient( white 65%, #3A85FF 65%);
